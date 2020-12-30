@@ -40,6 +40,26 @@ import {Dialog as ReachDialog} from '@reach/dialog'
 //   display: 'flex',
 //   flexDirection: 'column',
 
+const buttonVariants = {
+  primary: {
+    background: '#3f51b5',
+    color: 'white',
+  },
+  secondary: {
+    background: '#f1f2f7',
+    color: '#434449',
+  },
+}
+const Button = styled.button(
+  {
+    padding: '10px 15px',
+    border: 0,
+    lineHeight: 1,
+    borderRadius: '3px',
+  },
+  ({variant = 'primary'}) => buttonVariants[variant],
+)
+
 // 💰 I'm giving a few of these to you:
 const CircleButton = styled.button({
   borderRadius: '30px',
@@ -68,4 +88,4 @@ const Dialog = styled(ReachDialog)({
   },
 })
 
-export {CircleButton, Dialog}
+export {CircleButton, Dialog, Button}
