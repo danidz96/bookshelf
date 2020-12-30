@@ -26,6 +26,8 @@ public/exercise
 public/final
 public/extra-*
 
+.eslintcache
+
 # Allow people to make ignored files anywhere
 *.ignored.*
 ignored/
