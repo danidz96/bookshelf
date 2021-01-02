@@ -8,34 +8,19 @@ import {Input, BookListUL, Spinner} from './components/lib'
 import {BookRow} from './components/book-row'
 import {client} from './utils/api-client'
 import * as colors from './styles/colors'
+import {useAsync} from './utils/hooks'
 
 function DiscoverBooksScreen() {
-  const [status, setStatus] = React.useState('idle')
-  const [data, setData] = React.useState(null)
+  const {data, error, run, isLoading, isError, isSuccess} = useAsync()
   const [query, setQuery] = React.useState('')
   const [queried, setQueried] = React.useState(false)
-  const [error, setError] = React.useState(null)
-
-  const isLoading = status === 'loading'
-  const isSuccess = status === 'success'
-  const isError = status === 'error'
 
   React.useEffect(() => {
     if (!queried) {
       return
     }
-    setStatus('loading')
-    client(`books?query=${encodeURIComponent(query)}`).then(
-      responseData => {
-        setData(responseData)
-        setStatus('success')
-      },
-      errorData => {
-        setError(errorData)
-        setStatus('error')
-      },
-    )
-  }, [query, queried])
+    run(client(`books?query=${encodeURIComponent(query)}`))
+  }, [query, queried, run])
 
   function handleSearchSubmit(event) {
     event.preventDefault()
@@ -67,7 +52,7 @@ function DiscoverBooksScreen() {
               {isLoading ? (
                 <Spinner />
               ) : isError ? (
-                <FaTimes aria-label="error" />
+                <FaTimes aria-label="error" css={{color: colors.danger}} />
               ) : (
                 <FaSearch aria-label="search" />
               )}
